@@ -10,9 +10,14 @@ class App extends Component {
       console.log('categories ', categories );
     });
 
-    ReadableAPI.getPosts('react').then((posts) => {
+    ReadableAPI.getPostsByCategory('react').then((posts) => {
       console.log('react posts ' ,posts );
     });
+
+    ReadableAPI.getPosts().then((posts) => {
+      console.log('react posts ' ,posts );
+    });
+
     return (
       <div className="App">
         <div className="App-header">

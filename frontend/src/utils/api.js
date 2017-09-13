@@ -17,11 +17,22 @@ export const getCategories = () =>{
         .then(res =>  res.json())
         .then( data => data.categories )
 }
-export const getPosts = (category) => {
+export const getPostsByCategory = (category) => {
     category = category.trim();
     return fetch(`${api}/${category}/posts`,  {headers})
         .then( res => res.json())
         .then( data => data);
+}
+
+export const getPosts = () =>{
+    return fetch(`${api}/posts`, {headers})
+        .then(res =>  res.json())
+        .then( data => data )
+}
+
+export const getPostById = () => {
+
+
 }
 
     

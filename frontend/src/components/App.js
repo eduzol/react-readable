@@ -18,6 +18,14 @@ class App extends Component {
       console.log('react posts ' ,posts );
     });
 
+    ReadableAPI.getPostById('8xf0y6ziyjabvozdd253nd').then((post) => {
+      console.log('post ' , post);
+    });
+
+    ReadableAPI.getPostComments('8xf0y6ziyjabvozdd253nd').then((comments) => {
+      console.log('comments ' , comments);
+    });
+    
     return (
       <div className="App">
         <div className="App-header">

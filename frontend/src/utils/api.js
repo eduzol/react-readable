@@ -27,12 +27,21 @@ export const getPostsByCategory = (category) => {
 export const getPosts = () =>{
     return fetch(`${api}/posts`, {headers})
         .then(res =>  res.json())
-        .then( data => data )
+        .then( data => data );
 }
 
-export const getPostById = () => {
+export const getPostById = (id) => {
+    id = id.trim();
+    return fetch(`${api}/posts/${id}`, {headers})
+    .then(res =>  res.json())
+    .then( data => data );
+}
 
-
+export const getPostComments = (id) => {
+    id = id.trim();
+    return fetch(`${api}/posts/${id}/comments`, {headers})
+    .then(res =>  res.json())
+    .then( data => data );
 }
 
     

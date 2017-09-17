@@ -64,6 +64,7 @@ function getAll (token) {
 
 function add (token, post) {
   return new Promise((res) => {
+    console.log('adding post ' , post);
     let posts = getData(token)
     
     posts[post.id] = {

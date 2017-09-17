@@ -9,6 +9,7 @@ if (!token) {
 console.log('token ' , token);
 const headers = {
     'Accept': 'application/json',
+    'Content-Type' : 'application/json',
     'Authorization': token
   }
 
@@ -44,4 +45,9 @@ export const getPostComments = (id) => {
     .then( data => data );
 }
 
-    
+export const addPost = (post) =>
+fetch(`${api}/posts`, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(post)
+}).then(res => res.json())

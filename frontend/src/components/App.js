@@ -15,7 +15,7 @@ class App extends Component {
     });
 
     ReadableAPI.getPosts().then((posts) => {
-      console.log('react posts ' ,posts );
+      console.log(' react posts ' ,posts );
     });
 
     ReadableAPI.getPostById('8xf0y6ziyjabvozdd253nd').then((post) => {
@@ -25,7 +25,20 @@ class App extends Component {
     ReadableAPI.getPostComments('8xf0y6ziyjabvozdd253nd').then((comments) => {
       console.log('comments ' , comments);
     });
-    
+
+    var post = {
+      id : Math.random().toString(36).substr(-8) , 
+      timestamp: Date.now(),
+      title : 'Sample Eduardos Post', 
+      body : 'Udacity is so cool', 
+      author : 'eduzol', 
+      category : 'react'
+    };
+
+    ReadableAPI.addPost(post).then((response) => {
+      console.log('response ' , response );
+    });
+
     return (
       <div className="App">
         <div className="App-header">

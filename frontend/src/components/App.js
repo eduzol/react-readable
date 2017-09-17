@@ -39,6 +39,9 @@ class App extends Component {
       console.log('response ' , response );
     });
 
+    ReadableAPI.votePost('8xf0y6ziyjabvozdd253nd', 'upVote').then((response) => {
+      console.log('vote **** ' , response );
+    });
     return (
       <div className="App">
         <div className="App-header">

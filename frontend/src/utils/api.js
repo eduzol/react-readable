@@ -6,7 +6,6 @@ if (!token) {
     token = localStorage.token;
 }
 
-console.log('token ' , token);
 const headers = {
     'Accept': 'application/json',
     'Content-Type' : 'application/json',
@@ -45,9 +44,21 @@ export const getPostComments = (id) => {
     .then( data => data );
 }
 
-export const addPost = (post) =>
-fetch(`${api}/posts`, {
-  method: 'POST',
-  headers: headers,
-  body: JSON.stringify(post)
-}).then(res => res.json())
+export const addPost = (post) =>{
+    return fetch(`${api}/posts`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(post)})
+    .then(res => res.json());  
+}
+
+export const votePost = (id, vote) => {
+    id = id.trim();
+    vote = vote.trim();
+    return fetch(`${api}/posts/${id}`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({option:vote})})
+    .then(res => res.json());
+}
+    

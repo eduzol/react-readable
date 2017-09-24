@@ -62,3 +62,14 @@ export const votePost = (id, vote) => {
     .then(res => res.json());
 }
     
+/**    
+`PUT /posts/:id`  
+  **USAGE:**  
+    Edit the details of an existing post  
+
+  **PARAMS:**  
+    title - String  
+    body - String  
+ */
+
+ 

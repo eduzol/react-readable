@@ -40,8 +40,28 @@ class App extends Component {
     });
 
     ReadableAPI.votePost('8xf0y6ziyjabvozdd253nd', 'upVote').then((response) => {
-      console.log('vote **** ' , response );
+      console.log('vote' , response );
     });
+
+    ReadableAPI.editPost('8xf0y6ziyjabvozdd253nd', {title:'Hello' , body: 'world'}).then((response) => {
+      console.log('edit post ' , response );
+    });
+/*
+    ReadableAPI.deletePost('jsnga9oh').then((response) => {
+      console.log('delete post ' , response );
+    });
+  */  
+    var newComment = {
+      id: Math.random().toString(36).substr(-8),
+      timestamp: Date.now(),
+      body:'Es Miranda mi amor',  
+      owner: 'eduzol',  
+      parentId: 'oqnpmmqp'
+    };
+    ReadableAPI.commentPost(newComment).then((response) => {
+      console.log('new post **** ' , response );
+    });
+
     return (
       <div className="App">
         <div className="App-header">

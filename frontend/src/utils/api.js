@@ -61,15 +61,52 @@ export const votePost = (id, vote) => {
         body: JSON.stringify({option:vote})})
     .then(res => res.json());
 }
+
+export const editPost = (id, post) => {
+    id = id.trim();
     
-/**    
-`PUT /posts/:id`  
-  **USAGE:**  
-    Edit the details of an existing post  
+    return fetch(`${api}/posts/${id}`, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(post)})
+    .then(res => res.json());
+}
 
-  **PARAMS:**  
-    title - String  
-    body - String  
- */
+export const deletePost = (id) => {
+    id = id.trim();
+    
+    return fetch(`${api}/posts/${id}`, {
+        method: 'DELETE',
+        headers: headers})
+    .then(res => res.json());
+}
 
+export const commentPost = (post) => {
+    
+    return fetch(`${api}/comments`, {
+        method: 'POST',
+        headers: headers, 
+        body: JSON.stringify(post)})
+    .then(res => res.json());
+}
+
+export const editComment = (id, comment) => {
+    id = id.trim();
+    comment = comment.trim();
+
+    return fetch(`${api}/comments/${id}`, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(comment)})
+    .then(res => res.json());
+}
+
+export const deleteComment = (id) => {
+    id = id.trim();
+    
+    return fetch(`${api}/comments/${id}`, {
+        method: 'DELETE',
+        headers: headers})
+    .then(res => res.json());
+}
  

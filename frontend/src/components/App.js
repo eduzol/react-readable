@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import logo from './logo.svg';
 import * as  ReadableAPI from '../utils/api.js'; 
-import CategoriesList from './CategoriesList';  
-import { loadCategories } from '../actions';
+import CategoriesList from './CategoriesList';
+import PostList from './PostList';
+import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -12,11 +13,16 @@ class App extends Component {
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
     });
+
+    ReadableAPI.getPosts().then((posts) => {
+      this.props.loadPosts(posts);
+    });
   }
 
   render() {
     console.log('props  ' , this.props);
     let categories = this.props.categories;
+    let posts = this.props.posts;
     return (
       <div className="App">
         <div className="App-header">
@@ -26,19 +32,24 @@ class App extends Component {
         <div className="App-intro">
           <CategoriesList categories={categories} />
         </div>
+        <div className="App-intro">
+          <PostList posts={posts} />
+        </div>
       </div>
     );
   }
 }
 function  mapStateToProps (state ){
   return {
-    categories: state.categories
+    categories: state.categories, 
+    posts : state.posts
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    loadCategories : (data) => dispatch(loadCategories(data)) 
+    loadCategories : (data) => dispatch(loadCategories(data)) , 
+    loadPosts : (data) => dispatch(loadPosts(data))
   }
 }
 

@@ -1,11 +1,12 @@
 import {
-    LOAD_CATEGORIES
+    LOAD_CATEGORIES, 
+    LOAD_POSTS
 } from '../actions';
 
 var initialState  = {
 
-    categories : []
-
+    categories : [] , 
+    posts : []
 };
 function categoriesReducer( state = initialState , action ){
 
@@ -15,6 +16,12 @@ function categoriesReducer( state = initialState , action ){
             return {
                 ...state , 
                 'categories': action.categories
+            };
+
+        case LOAD_POSTS :
+            return {
+                ...state, 
+                'posts' : action.posts
             };
 
         default:

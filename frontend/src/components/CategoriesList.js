@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {MenuItem, DropdownButton,Clearfix  } from 'react-bootstrap';
 
 class CategoriesList extends Component{
 
@@ -7,12 +8,15 @@ class CategoriesList extends Component{
         
         return (
             <div className="list-component categories">
-                <div> Categories </div>
-                <ul> 
+                <Clearfix>
+                <DropdownButton id="categories-menu" title="" open >
+                    <MenuItem header>Categories</MenuItem>
+                    <MenuItem key='all' selected> All</MenuItem>
                     {categories.map( (category) => 
-                       ( <li key={category.name}> {category.name}</li> )   
+                        ( <MenuItem key={category.name}> {category.name}</MenuItem> )   
                     )}
-                </ul>
+                 </DropdownButton>
+                </Clearfix>
             </div>
         );
     }

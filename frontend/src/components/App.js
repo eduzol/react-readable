@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import logo from './logo.svg';
 import * as  ReadableAPI from '../utils/api.js'; 
 import CategoriesList from './CategoriesList';
 import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
+import { Grid, Navbar, Jumbotron, Row, Col } from 'react-bootstrap';
+
 
 class App extends Component {
 
@@ -24,18 +25,35 @@ class App extends Component {
     let categories = this.props.categories;
     let posts = this.props.posts;
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>React-Readable</h2>
-        </div>
-        <div className="App-intro">
-          <CategoriesList categories={categories} />
-        </div>
-        <div className="App-intro">
-          <PostList posts={posts} />
-        </div>
-      </div>
+    
+      <div>
+      <Navbar inverse fixedTop>
+        <Grid>
+          <Navbar.Header>
+            <Navbar.Brand>
+              React Readable
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+        </Grid>
+      </Navbar>
+      <Jumbotron>
+        <Grid>
+        <Row className="show-grid">
+            <Col xs={6} md={4}>
+              <CategoriesList categories={categories} />
+            </Col>
+            <Col xs={12} md={8}>
+              <PostList posts={posts} />
+            </Col>     
+        </Row>
+       
+       
+       
+       </Grid> 
+      </Jumbotron>
+    </div>
+    
     );
   }
 }

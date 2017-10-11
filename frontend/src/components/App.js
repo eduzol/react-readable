@@ -31,7 +31,7 @@ class App extends Component {
         <Grid>
           <Navbar.Header>
             <Navbar.Brand>
-              React Readable
+            Readable
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -47,9 +47,6 @@ class App extends Component {
               <PostList posts={posts} />
             </Col>     
         </Row>
-       
-       
-       
        </Grid> 
       </Jumbotron>
     </div>

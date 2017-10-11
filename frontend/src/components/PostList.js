@@ -11,7 +11,7 @@ class PostList extends Component{
                 <div> Posts </div>
                 <ListGroup > 
                     {posts.map( (post) => 
-                       ( <ListGroupItem key={post.id}> {post.title}</ListGroupItem> )   
+                       ( <ListGroupItem key={post.id} href="{post.id}"> {post.title}</ListGroupItem> )   
                     )}
                 </ListGroup>
             </div>

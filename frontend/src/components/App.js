@@ -11,6 +11,7 @@ import { Grid, Navbar, Jumbotron, Row, Col } from 'react-bootstrap';
 class App extends Component {
 
   componentDidMount(){
+
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
     });
@@ -21,7 +22,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('props  ' , this.props);
     let categories = this.props.categories;
     let posts = this.props.posts;
     return (

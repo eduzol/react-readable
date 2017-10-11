@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import {ListGroup, ListGroupItem  } from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import * as moment from 'moment/moment';
+
 
 class PostList extends Component{
+
+    dateFormatter (cell, row){
+        let formattedDate = moment.unix(cell/1000).format("MM-DD-YYYY HH:mm");
+        return formattedDate;
+    }
 
     render() {
         //sort by votescore
         let posts = this.props.posts.sort(function(postA, postB){
                 return postB.voteScore - postA.voteScore;
         });
-
+       
         return (
             <div className="list-component posts">
-                <div> Posts </div>
-                <ListGroup > 
-                    {posts.map( (post) => 
-                       ( <ListGroupItem key={post.id} href="{post.id}"  > {post.title}
-                                    <span className="badge badge-default badge-pill">{post.voteScore}</span>
-                       </ListGroupItem> )   
-                    )}
-                </ListGroup>
+                <BootstrapTable data={posts} hover keyField='id'>
+                  <TableHeaderColumn dataField='title' width='70%'>Posts</TableHeaderColumn>
+                  <TableHeaderColumn dataField='timestamp' width="20%" dataSort={ true } dataFormat={this.dateFormatter}>Date</TableHeaderColumn>
+                  <TableHeaderColumn dataField='voteScore' width="10%" dataSort={ true }>Score</TableHeaderColumn>
+                </BootstrapTable>
             </div>
         );
     }

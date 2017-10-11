@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore  } from 'redux';

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {MenuItem, DropdownButton,Clearfix, Panel, ListGroup , ListGroupItem } from 'react-bootstrap';
 
 class CategoriesList extends Component{
 
@@ -7,12 +8,16 @@ class CategoriesList extends Component{
         
         return (
             <div className="list-component categories">
-                <div> Categories </div>
-                <ul> 
+                <Clearfix>
+                    <Panel header="Categories">
+                    <ListGroup fill>    
+                    <ListGroupItem key='all' href="all" active> All</ListGroupItem>
                     {categories.map( (category) => 
-                       ( <li key={category.name}> {category.name}</li> )   
+                        ( <ListGroupItem key={category.name} href={category.name}> {category.name}</ListGroupItem> )   
                     )}
-                </ul>
+                    </ListGroup>
+                   </Panel>
+                </Clearfix>
             </div>
         );
     }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {ListGroup, ListGroupItem  } from 'react-bootstrap';
 
 class PostList extends Component{
 
@@ -8,11 +9,11 @@ class PostList extends Component{
         return (
             <div className="list-component posts">
                 <div> Posts </div>
-                <ul> 
+                <ListGroup > 
                     {posts.map( (post) => 
-                       ( <li key={post.id}> {post.title}</li> )   
+                       ( <ListGroupItem key={post.id} href="{post.id}"> {post.title}</ListGroupItem> )   
                     )}
-                </ul>
+                </ListGroup>
             </div>
         );
     }

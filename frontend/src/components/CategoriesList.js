@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {MenuItem, DropdownButton,Clearfix, Panel, ListGroup , ListGroupItem } from 'react-bootstrap';
+import {Clearfix, Panel, ListGroup , ListGroupItem } from 'react-bootstrap';
 
 class CategoriesList extends Component{
 
     render() {
         let categories = this.props.categories;
-        
         return (
             <div className="list-component categories">
                 <Clearfix>

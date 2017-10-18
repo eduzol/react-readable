@@ -5,7 +5,7 @@ import CategoriesList from './CategoriesList';
 import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
-import { Grid, Navbar, Jumbotron, Row, Col } from 'react-bootstrap';
+import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button } from 'react-bootstrap';
 
 
 class App extends Component {
@@ -29,12 +29,27 @@ class App extends Component {
       <div>
       <Navbar inverse fixedTop>
         <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-            Readable
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
+        <Row className="show-grid">
+          <Col xs={6} md={4}> 
+              <Navbar.Header>
+              <Navbar.Brand>
+                Readable
+                </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+           </Col>
+          <Col xs={6} md={4}>
+              <Navbar.Header>
+              <Navbar.Brand>
+                <ButtonToolbar>
+                  <Button bsSize="small"  bsStyle="primary" active>Create Post</Button>
+                </ButtonToolbar>
+              </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+          </Col>
+          <Col xsHidden md={4}> </Col>
+        </Row>
         </Grid>
       </Navbar>
       <Jumbotron>

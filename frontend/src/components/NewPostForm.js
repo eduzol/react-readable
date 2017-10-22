@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as ReadableAPI from '../utils/api';
 import serializeForm from 'form-serialize';
 import { loadPost } from '../actions';
+import { withRouter } from 'react-router-dom';
 
 class NewPostForm extends Component{
 
@@ -108,4 +109,4 @@ function mapDispatchToProps(dispatch){
       loadPost : (data) => dispatch(loadPost(data))
     }
   }
-export default connect(mapStateToProps, mapDispatchToProps)(NewPostForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewPostForm));

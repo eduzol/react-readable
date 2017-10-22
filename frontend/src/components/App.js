@@ -7,6 +7,12 @@ import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
+import { Route } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import {LinkContainer} from 'react-router-bootstrap';
+
+
 
 class App extends Component {
 
@@ -36,16 +42,16 @@ class App extends Component {
   render() {
     let categories = this.props.categories;
     let posts = this.props.posts;
+   
     return (
-    
       <div>
       <Navbar inverse fixedTop>
         <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}> 
               <Navbar.Header>
-              <Navbar.Brand>
-                Readable
+                <Navbar.Brand>
+                  Readable
                 </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
@@ -54,7 +60,9 @@ class App extends Component {
               <Navbar.Header>
               <Navbar.Brand>
                 <ButtonToolbar>
+                  <Link to={{ pathname: "/new", state: { modal: true }}}>
                   <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Create Post</Button>
+                  </Link>
                 </ButtonToolbar>
               </Navbar.Brand>
               <Navbar.Toggle />
@@ -76,18 +84,21 @@ class App extends Component {
         </Row>
        </Grid> 
       </Jumbotron>
-
-      <Modal show={this.state.newPostModalOpen} onHide={this.closePostModal}>
-        <Modal.Header closeButton>
-            <Modal.Title>Create New Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <NewPostForm onNewPost={this.closePostModal} />
-        </Modal.Body>
-        <Modal.Footer>
-            <Button onClick={this.closePostModal}>Close</Button>
-         </Modal.Footer>
-      </Modal>
+      <Route exact path="/new"  render={ () => (
+        <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>
+          <Modal.Header>
+              <Modal.Title>Create New Post</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <NewPostForm onNewPost={this.closePostModal} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Link to="/">
+              <Button onClick={this.closePostModal}>Close</Button>
+            </Link>
+          </Modal.Footer>
+        </Modal>
+      )} />
     </div>
     );
   }
@@ -106,4 +117,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

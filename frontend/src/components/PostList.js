@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import * as moment from 'moment/moment';
-
+import { setCategory } from '../actions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class PostList extends Component{
 
@@ -11,11 +13,20 @@ class PostList extends Component{
     }
 
     render() {
-        //sort by votescore
-        let posts = this.props.posts.sort(function(postA, postB){
+       
+        let posts = [];
+        let sortedPosts = this.props.posts.sort(function(postA, postB){
                 return postB.voteScore - postA.voteScore;
         });
        
+        let activeCategory =  this.props.currentCategory;
+
+        if (activeCategory !== 'all'){
+            posts = sortedPosts.filter( post => post.category === activeCategory);
+        }else{
+            posts = sortedPosts;
+        }
+
         return (
             <div className="list-component posts">
                 <BootstrapTable data={posts} hover keyField='id'>
@@ -28,4 +39,11 @@ class PostList extends Component{
     }
 }
 
-export default PostList;
+
+function  mapStateToProps (state ){
+    return {
+     currentCategory : state.currentCategory
+    };
+}
+
+export default withRouter(connect(mapStateToProps)(PostList));

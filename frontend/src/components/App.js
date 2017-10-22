@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import * as  ReadableAPI from '../utils/api.js'; 
 import CategoriesList from './CategoriesList';
+import NewPostForm from './NewPostForm';
 import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
-
-
 
 class App extends Component {
 
@@ -27,12 +26,10 @@ class App extends Component {
   }
 
   openPostModal = () => {
-    console.log('new post button selected ');
     this.setState({newPostModalOpen : true });
   }
 
   closePostModal = () =>{
-    console.log('closing new post modal');
     this.setState({newPostModalOpen : false });
   }
 
@@ -85,9 +82,7 @@ class App extends Component {
             <Modal.Title>Create New Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div>
-          <h1>New Post Form</h1>
-        </div>
+          <NewPostForm onNewPost={this.closePostModal} />
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.closePostModal}>Close</Button>

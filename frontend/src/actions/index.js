@@ -1,5 +1,6 @@
 export const LOAD_CATEGORIES = "LOAD_CATEGORIES";
 export const LOAD_POSTS = "LOAD_POSTS";
+export const LOAD_POST = "LOAD_POST";
 
 export function loadCategories ( categories ){
 
@@ -15,4 +16,12 @@ export function loadPosts ( posts ){
         type : LOAD_POSTS, 
         posts
     };
+}
+
+export function loadPost(post){
+    return {
+        type: LOAD_POST, 
+        post
+    }
+
 }

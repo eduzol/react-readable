@@ -5,10 +5,15 @@ import CategoriesList from './CategoriesList';
 import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
-import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button } from 'react-bootstrap';
+import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
+
 
 
 class App extends Component {
+
+  state = {
+    newPostModalOpen : false
+  }
 
   componentDidMount(){
 
@@ -19,6 +24,16 @@ class App extends Component {
     ReadableAPI.getPosts().then((posts) => {
       this.props.loadPosts(posts);
     });
+  }
+
+  openPostModal = () => {
+    console.log('new post button selected ');
+    this.setState({newPostModalOpen : true });
+  }
+
+  closePostModal = () =>{
+    console.log('closing new post modal');
+    this.setState({newPostModalOpen : false });
   }
 
   render() {
@@ -42,7 +57,7 @@ class App extends Component {
               <Navbar.Header>
               <Navbar.Brand>
                 <ButtonToolbar>
-                  <Button bsSize="small"  bsStyle="primary" active>Create Post</Button>
+                  <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Create Post</Button>
                 </ButtonToolbar>
               </Navbar.Brand>
               <Navbar.Toggle />
@@ -64,8 +79,21 @@ class App extends Component {
         </Row>
        </Grid> 
       </Jumbotron>
+
+      <Modal show={this.state.newPostModalOpen} onHide={this.closePostModal}>
+        <Modal.Header closeButton>
+            <Modal.Title>Create New Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <div>
+          <h1>New Post Form</h1>
+        </div>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button onClick={this.closePostModal}>Close</Button>
+         </Modal.Footer>
+      </Modal>
     </div>
-    
     );
   }
 }

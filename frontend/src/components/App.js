@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 import * as  ReadableAPI from '../utils/api.js'; 
 import CategoriesList from './CategoriesList';
+import NewPostForm from './NewPostForm';
 import PostList from './PostList';
 import { loadCategories , loadPosts } from '../actions';
 import { connect } from 'react-redux';
-import { Grid, Navbar, Jumbotron, Row, Col } from 'react-bootstrap';
-
+import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
 
 class App extends Component {
+
+  state = {
+    newPostModalOpen : false
+  }
 
   componentDidMount(){
 
@@ -21,6 +25,14 @@ class App extends Component {
     });
   }
 
+  openPostModal = () => {
+    this.setState({newPostModalOpen : true });
+  }
+
+  closePostModal = () =>{
+    this.setState({newPostModalOpen : false });
+  }
+
   render() {
     let categories = this.props.categories;
     let posts = this.props.posts;
@@ -29,12 +41,27 @@ class App extends Component {
       <div>
       <Navbar inverse fixedTop>
         <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-            Readable
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
+        <Row className="show-grid">
+          <Col xs={6} md={4}> 
+              <Navbar.Header>
+              <Navbar.Brand>
+                Readable
+                </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+           </Col>
+          <Col xs={6} md={4}>
+              <Navbar.Header>
+              <Navbar.Brand>
+                <ButtonToolbar>
+                  <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Create Post</Button>
+                </ButtonToolbar>
+              </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+          </Col>
+          <Col xsHidden md={4}> </Col>
+        </Row>
         </Grid>
       </Navbar>
       <Jumbotron>
@@ -49,8 +76,19 @@ class App extends Component {
         </Row>
        </Grid> 
       </Jumbotron>
+
+      <Modal show={this.state.newPostModalOpen} onHide={this.closePostModal}>
+        <Modal.Header closeButton>
+            <Modal.Title>Create New Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NewPostForm onNewPost={this.closePostModal} />
+        </Modal.Body>
+        <Modal.Footer>
+            <Button onClick={this.closePostModal}>Close</Button>
+         </Modal.Footer>
+      </Modal>
     </div>
-    
     );
   }
 }

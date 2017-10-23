@@ -4,7 +4,7 @@ import * as  ReadableAPI from '../utils/api.js';
 import CategoriesList from './CategoriesList';
 import NewPostForm from './NewPostForm';
 import PostList from './PostList';
-import { loadCategories , loadPosts } from '../actions';
+import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
@@ -24,11 +24,24 @@ class App extends Component {
 
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
+    }).then(() =>{
+
+      let path = this.props.location.pathname;
+      if ( path.includes('categories') ){
+         let category = path.split('/')[2];
+         if (this.props.categories.filter( cat => cat.name === category).length > 0  ){
+          this.props.setCategory(category);
+         }else{
+          this.props.history.push("/");
+         }
+      }
+
     });
 
     ReadableAPI.getPosts().then((posts) => {
       this.props.loadPosts(posts);
     });
+   
   }
 
   openPostModal = () => {
@@ -42,7 +55,8 @@ class App extends Component {
   render() {
     let categories = this.props.categories;
     let posts = this.props.posts;
-   
+  
+
     return (
       <div>
       <Navbar inverse fixedTop>
@@ -106,14 +120,16 @@ class App extends Component {
 function  mapStateToProps (state ){
   return {
     categories: state.categories, 
-    posts : state.posts
+    posts : state.posts,
+    currentCategory : state.currentCategory
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     loadCategories : (data) => dispatch(loadCategories(data)) , 
-    loadPosts : (data) => dispatch(loadPosts(data))
+    loadPosts : (data) => dispatch(loadPosts(data)), 
+    setCategory : (data) => dispatch(setCategory(data))
   }
 }
 

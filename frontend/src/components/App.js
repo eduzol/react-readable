@@ -11,45 +11,48 @@ import { Route } from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
-
-
+import { BrowserRouter } from 'react-router-dom'
 
 class App extends Component {
-
-  state = {
-    newPostModalOpen : false
-  }
 
   componentDidMount(){
 
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
     }).then(() =>{
-
-      let path = this.props.location.pathname;
-      if ( path.includes('categories') ){
-         let category = path.split('/')[2];
-         if (this.props.categories.filter( cat => cat.name === category).length > 0  ){
-          this.props.setCategory(category);
-         }else{
-          this.props.history.push("/");
-         }
-      }
-
+      this.handleUrlChange();
     });
 
     ReadableAPI.getPosts().then((posts) => {
       this.props.loadPosts(posts);
     });
-   
+
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.handleUrlChange();
+    }
   }
 
   openPostModal = () => {
-    this.setState({newPostModalOpen : true });
+   
   }
 
   closePostModal = () =>{
-    this.setState({newPostModalOpen : false });
+    
+  }
+
+  handleUrlChange = () =>{
+    let path = this.props.location.pathname;
+    if ( path.includes('categories') ){
+       let category = path.split('/')[2];
+       if (this.props.categories.filter( cat => cat.name === category).length > 0  ){
+        this.props.setCategory(category);
+       }else{
+        this.props.history.push("/");
+       }
+    }
   }
 
   render() {
@@ -86,16 +89,18 @@ class App extends Component {
         </Grid>
       </Navbar>
       <Jumbotron>
-        <Grid>
-        <Row className="show-grid">
-            <Col xs={6} md={4}>
-              <CategoriesList categories={categories} />
-            </Col>
-            <Col xs={12} md={8}>
-              <PostList posts={posts} />
-            </Col>     
-        </Row>
-       </Grid> 
+        <Route path="/" onChange={this.handleUrlChange}>
+          <Grid>
+          <Row className="show-grid">
+              <Col xs={6} md={4}>
+                <CategoriesList categories={categories} />
+              </Col>
+              <Col xs={12} md={8}>
+                <PostList posts={posts} />
+              </Col>     
+          </Row>
+        </Grid> 
+       </Route>
       </Jumbotron>
       <Route exact path="/new"  render={ () => (
         <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>

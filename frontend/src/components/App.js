@@ -8,7 +8,7 @@ import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
-import {Link} from 'react-router-dom';
+import {Link, Switch} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
 import { BrowserRouter } from 'react-router-dom'
@@ -88,8 +88,8 @@ class App extends Component {
         </Row>
         </Grid>
       </Navbar>
+      <Route path="/" render={ () => (
       <Jumbotron>
-        <Route path="/" onChange={this.handleUrlChange}>
           <Grid>
           <Row className="show-grid">
               <Col xs={6} md={4}>
@@ -100,8 +100,8 @@ class App extends Component {
               </Col>     
           </Row>
         </Grid> 
-       </Route>
       </Jumbotron>
+      )} />
       <Route exact path="/new"  render={ () => (
         <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>
           <Modal.Header>
@@ -117,6 +117,12 @@ class App extends Component {
           </Modal.Footer>
         </Modal>
       )} />
+      <Route exact path="/post/:id"  render={ () => (
+        <div>
+          <h1>Post Details</h1>
+        </div>
+      )} />
+    
     </div>
     );
   }

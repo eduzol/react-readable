@@ -4,12 +4,22 @@ import * as moment from 'moment/moment';
 import { setCategory } from '../actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class PostList extends Component{
 
     dateFormatter (cell, row){
         let formattedDate = moment.unix(cell/1000).format("MM-DD-YYYY HH:mm");
         return formattedDate;
+    }
+
+    linkFormatter (cell, row) {
+        
+        return (
+            <Link to={'/post/'+row.id}>
+                {cell}
+             </Link>
+        );
     }
 
     render() {
@@ -30,7 +40,7 @@ class PostList extends Component{
         return (
             <div className="list-component posts">
                 <BootstrapTable data={posts} hover keyField='id'>
-                  <TableHeaderColumn dataField='title' width='70%'>Posts</TableHeaderColumn>
+                  <TableHeaderColumn dataField='title' width='70%' dataFormat={this.linkFormatter}>Posts</TableHeaderColumn>
                   <TableHeaderColumn dataField='timestamp' width="20%" dataSort={ true } dataFormat={this.dateFormatter}>Date</TableHeaderColumn>
                   <TableHeaderColumn dataField='voteScore' width="10%" dataSort={ true }>Score</TableHeaderColumn>
                 </BootstrapTable>

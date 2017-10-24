@@ -55,7 +55,6 @@ class App extends Component {
   render() {
     let categories = this.props.categories;
     let posts = this.props.posts;
-  
 
     return (
       <div>

@@ -1,12 +1,14 @@
 import {
     LOAD_CATEGORIES, 
     LOAD_POSTS, 
-    LOAD_POST
+    LOAD_POST, 
+    SET_CATEGORY
 } from '../actions';
 
 var initialState  = {
     categories : [] , 
-    posts : []
+    posts : [], 
+    currentCategory : 'all'
 };
 
 function categoriesReducer( state = initialState , action ){
@@ -30,7 +32,15 @@ function categoriesReducer( state = initialState , action ){
             return {
                 ...state, 
                 'posts' : state.posts.concat(action.post)
-            }
+            };
+
+        case SET_CATEGORY :
+
+            return {
+                ...state, 
+                'currentCategory' : action.category
+            };
+            
         default:
             return state;
 

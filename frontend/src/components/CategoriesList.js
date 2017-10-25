@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Clearfix, Panel, ListGroup , ListGroupItem } from 'react-bootstrap';
 import { setCategory } from '../actions';
 import {Link} from 'react-router-dom';
-import {LinkContainer} from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -20,14 +19,14 @@ class CategoriesList extends Component{
                 <Clearfix>
                     <Panel header="Categories">
                     <ListGroup fill>    
-                    <Link key = "all" to="/categories/all">
+                    <Link key = "all" to="/reader/categories/all">
                         <ListGroupItem key='all' 
                                        active={'all'===activeCategory}
                                        onClick={this.onSelected.bind(this, 'all')}> All</ListGroupItem>
                     </Link>
                     {categories.map( (category) => 
                         ( 
-                          <Link  key={category.name} to={"/categories/"+category.name}>
+                          <Link  key={category.name} to={"/reader/categories/"+category.name}>
                             <ListGroupItem key={category.name} 
                                            active={category.name===activeCategory} 
                                            onClick={this.onSelected.bind(this, category.name)}> {category.name}</ListGroupItem> 

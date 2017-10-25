@@ -4,52 +4,55 @@ import * as  ReadableAPI from '../utils/api.js';
 import CategoriesList from './CategoriesList';
 import NewPostForm from './NewPostForm';
 import PostList from './PostList';
+import PostDetail from './PostDetail';
 import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import {LinkContainer} from 'react-router-bootstrap';
-
-
 
 class App extends Component {
-
-  state = {
-    newPostModalOpen : false
-  }
 
   componentDidMount(){
 
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
     }).then(() =>{
-
-      let path = this.props.location.pathname;
-      if ( path.includes('categories') ){
-         let category = path.split('/')[2];
-         if (this.props.categories.filter( cat => cat.name === category).length > 0  ){
-          this.props.setCategory(category);
-         }else{
-          this.props.history.push("/");
-         }
-      }
-
+      this.handleUrlChange();
     });
 
     ReadableAPI.getPosts().then((posts) => {
       this.props.loadPosts(posts);
     });
-   
+
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.handleUrlChange();
+    }
   }
 
   openPostModal = () => {
-    this.setState({newPostModalOpen : true });
+   
   }
 
   closePostModal = () =>{
-    this.setState({newPostModalOpen : false });
+    
+  }
+
+  handleUrlChange = () =>{
+    let path = this.props.location.pathname;
+    if ( path.includes('categories') ){
+       let category = path.split('/')[3];
+       if (this.props.categories.filter( cat => cat.name === category).length > 0  ){
+        this.props.setCategory(category);
+       }else{
+        this.props.setCategory('all');
+        this.props.history.push("/reader");
+       }
+    }
   }
 
   render() {
@@ -64,7 +67,9 @@ class App extends Component {
           <Col xs={6} md={4}> 
               <Navbar.Header>
                 <Navbar.Brand>
+                  <Link to="/reader/categories/all" >
                   Readable
+                  </Link>
                 </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
@@ -85,18 +90,21 @@ class App extends Component {
         </Row>
         </Grid>
       </Navbar>
+      <Route exact path="/" render={() => <Redirect to="/reader" />} />
+      <Route path="/reader" render={ () => (
       <Jumbotron>
-        <Grid>
-        <Row className="show-grid">
-            <Col xs={6} md={4}>
-              <CategoriesList categories={categories} />
-            </Col>
-            <Col xs={12} md={8}>
-              <PostList posts={posts} />
-            </Col>     
-        </Row>
-       </Grid> 
+          <Grid>
+          <Row className="show-grid">
+              <Col xs={6} md={4}>
+                <CategoriesList categories={categories} />
+              </Col>
+              <Col xs={12} md={8}>
+                <PostList posts={posts} />
+              </Col>     
+          </Row>
+        </Grid> 
       </Jumbotron>
+      )} />
       <Route exact path="/new"  render={ () => (
         <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>
           <Modal.Header>
@@ -106,12 +114,14 @@ class App extends Component {
             <NewPostForm onNewPost={this.closePostModal} />
           </Modal.Body>
           <Modal.Footer>
-            <Link to="/">
+            <Link to="/reader/categories/all">
               <Button onClick={this.closePostModal}>Close</Button>
             </Link>
           </Modal.Footer>
         </Modal>
       )} />
+      <Route exact path="/post/:id" component={PostDetail} />
+    
     </div>
     );
   }

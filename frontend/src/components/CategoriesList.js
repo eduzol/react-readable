@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Clearfix, Panel, ListGroup , ListGroupItem } from 'react-bootstrap';
 import { setCategory } from '../actions';
 import {Link} from 'react-router-dom';
-import {LinkContainer} from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 

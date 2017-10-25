@@ -9,10 +9,8 @@ import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
 import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
-import {Link, Switch, Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import {LinkContainer} from 'react-router-bootstrap';
-import { BrowserRouter } from 'react-router-dom'
 
 class App extends Component {
 

@@ -15,7 +15,18 @@ import { withRouter } from 'react-router-dom';
 class App extends Component {
 
   componentDidMount(){
-
+/*
+    var newComment = {
+      id: Math.random().toString(36).substr(-8),
+      timestamp: Date.now(),
+      body:'Es Miranda mi amor',  
+      owner: 'eduzol',  
+      parentId: '6ni6ok3ym7mf1p33lnez'
+    };
+    ReadableAPI.commentPost(newComment).then((response) => {
+      console.log('new post **** ' , response );
+    });
+*/
     ReadableAPI.getCategories().then((categories) => {
       this.props.loadCategories(categories);
     }).then(() =>{

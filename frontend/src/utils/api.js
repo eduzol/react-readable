@@ -161,7 +161,7 @@ export const deleteComment = (id) => {
       timestamp: Date.now(),
       body:'Es Miranda mi amor',  
       owner: 'eduzol',  
-      parentId: 'oqnpmmqp'
+      parentId: '6ni6ok3ym7mf1p33lnez'
     };
     ReadableAPI.commentPost(newComment).then((response) => {
       console.log('new post **** ' , response );

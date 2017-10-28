@@ -40,7 +40,8 @@ class PostDetail extends Component{
                                 <Row className="show-grid">
                                 <Col xs={12} md={12}>
                                     <h2>{post.title}</h2>
-                                    <h5>Submitted by <span style={{fontWeight: 'bold'}}> {post.author} </span> on {date}. {post.voteScore} votes</h5>
+                                    <h5>Submitted by <span style={{fontWeight: 'bold'}}> {post.author} </span> on {date}.
+                                     <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> </h5>
                                 </Col>     
                                 </Row>
                                 <Row className="show-grid">

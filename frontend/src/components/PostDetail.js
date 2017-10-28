@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import * as moment from 'moment/moment';
 import * as  ReadableAPI from '../utils/api.js'; 
 import { loadComments } from '../actions';
+import CommentDetails from './CommentDetails';
 
 class PostDetail extends Component{
 
@@ -56,28 +57,11 @@ class PostDetail extends Component{
                                 </Row>
                             </Grid> 
                         </Col>
-                        <Col xs={6} md={4} style={{backgroundColor: '#FFFFFF'}}>
-                            <Grid >
-                                <Row className="show-grid">
-                                    <Col xs={12} md={12}>
-                                        <h4>Comments</h4>
-                                    </Col>       
-                                </Row>
-                                {comments.map( (comment) => (
-                                <Row key={comment.id} className="show-grid">
-                                    <Col xs={12} md={12}>
-                                      <span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }.</span> {comment.body}
-                                      <br />
-                                      <br />
-
-                                    </Col>    
-                                </Row>
-                                ))}
-                            </Grid>
+                        <Col xs={6} md={4} >
+                          <CommentDetails comments={comments} />
                         </Col>
                     </Row>
                 </Grid>
-                   
             </Jumbotron>
             ):(
             <Jumbotron>

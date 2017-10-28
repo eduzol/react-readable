@@ -69,7 +69,7 @@ class PostDetail extends Component{
                                       <br />
                                       <br />
 
-                                    </Col>  
+                                    </Col>    
                                 </Row>
                                 ))}
                             </Grid>

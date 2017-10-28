@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as ReadableAPI from '../utils/api';
 import serializeForm from 'form-serialize';
+import { loadComments, setCurrentPost } from '../actions';
 
 class NewCommentForm extends Component {
 
@@ -14,7 +15,9 @@ class NewCommentForm extends Component {
     };
 
     closePostModal = () =>{
-        console.log('close comment form');
+        let postId = this.props.postId;
+        this.props.setCurrentPost(postId);
+        this.props.history.push("/post/"+postId);
     }
 
     handleChange = (e) => {
@@ -27,23 +30,24 @@ class NewCommentForm extends Component {
     getCommentValidationState = ( ) => {
         const length = this.state.body.length;
         if (length > 1) return 'success';
-        else if (length > 5) return 'error';
+        else if (length >255) return 'error';
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         const values =serializeForm(e.target, {hash:true});
-        
+        let postId = this.props.postId;
         var newComment = {
             id: Math.random().toString(36).substr(-8),
             timestamp: Date.now(),
             body:values.body,  
-            owner:  localStorage.token ? localStorage.token : 'anon' ,  
-            parentId: this.props.postId
+            author:  localStorage.token ? localStorage.token : 'anon' ,  
+            parentId: postId
           };
-          ReadableAPI.commentPost(newComment).then((response) => {
-            console.log('new post **** ' , response );
-            
+          ReadableAPI.commentPost(newComment).then((comment) => {
+            this.props.loadComments( [comment] , postId);
+            this.props.setCurrentPost(postId);
+            this.props.history.push("/post/"+postId);
           });
     }
 
@@ -86,4 +90,11 @@ function  mapStateToProps (state ){
     };
 }
 
-export default withRouter(connect(mapStateToProps)(NewCommentForm));
+function mapDispatchToProps(dispatch){
+    return {
+      loadComments : (data, id) => dispatch(loadComments(data, id)), 
+      setCurrentPost : (postId) => dispatch(setCurrentPost(postId))
+    }
+  }
+  
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewCommentForm));

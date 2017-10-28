@@ -27,7 +27,6 @@ class App extends Component {
     });
 
   }
-
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.handleUrlChange();

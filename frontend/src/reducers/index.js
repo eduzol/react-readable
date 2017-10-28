@@ -3,14 +3,16 @@ import {
     LOAD_POSTS, 
     LOAD_POST, 
     LOAD_COMMENTS,
-    SET_CATEGORY
+    SET_CATEGORY, 
+    SET_CURRENT_POST
 } from '../actions';
 
 var initialState  = {
     categories : [] , 
     posts : [], 
     comments : [],
-    currentCategory : 'all'
+    currentCategory : 'all', 
+    currentPost : ''
 };
 
 function categoriesReducer( state = initialState , action ){
@@ -44,18 +46,17 @@ function categoriesReducer( state = initialState , action ){
             };
         
         case LOAD_COMMENTS :
-            console.log('comments ', action.comments);
-            console.log('postId ', action.postId);
             let updatedComments = state.comments.filter( (comment) => comment.parentId !== action.postId);    
-            /* .concat(action.comments); */
-
-            console.log('updatedComments ' , updatedComments);
-            console.log(' action.comments ' ,  action.comments);
             return {
                 ...state, 
                 'comments':updatedComments.concat(action.comments)
             }
 
+        case SET_CURRENT_POST:
+            return {
+                ...state, 
+                'currentPost' : action.postId
+            }
         default:
             return state;
 

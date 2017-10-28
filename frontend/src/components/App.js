@@ -11,6 +11,7 @@ import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 
 import { Route } from 'react-router-dom';
 import {Link, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import NewCommentForm from './NewCommentForm';
 
 class App extends Component {
 
@@ -122,6 +123,7 @@ class App extends Component {
         </Modal>
       )} />
       <Route exact path="/post/:id" component={PostDetail} />
+      <Route exact path="/comments/add" component={NewCommentForm} />
     
     </div>
     );

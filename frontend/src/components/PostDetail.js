@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as moment from 'moment/moment';
 import * as  ReadableAPI from '../utils/api.js'; 
-import { loadComments } from '../actions';
+import { loadComments, setCurrentPost } from '../actions';
 import CommentDetails from './CommentDetails';
 
 class PostDetail extends Component{
 
     componentDidMount(){
-        /* get comments when loading */
+        
         let postId = this.props.match.params.id;
         if ( postId ){
             ReadableAPI.getPostComments(postId).then((comments) => {
@@ -28,6 +28,7 @@ class PostDetail extends Component{
             var comments = this.props.comments.filter((comment) => comment.parentId === postId ).sort(function(c1, c2){
                return  c2.voteScore - c1.voteScore;
             });
+            this.props.setCurrentPost(postId);
         }
       
         return (
@@ -58,7 +59,7 @@ class PostDetail extends Component{
                             </Grid> 
                         </Col>
                         <Col xs={6} md={4} >
-                          <CommentDetails comments={comments} />
+                          <CommentDetails postId={postId} comments={comments} />
                         </Col>
                     </Row>
                 </Grid>
@@ -82,9 +83,9 @@ function  mapStateToProps (state ){
 
 function mapDispatchToProps(dispatch){
     return {
-      loadComments : (data, id) => dispatch(loadComments(data, id))
+      loadComments : (data, id) => dispatch(loadComments(data, id)), 
+      setCurrentPost : (postId) => dispatch(setCurrentPost(postId))
     }
   }
-  
   
 export default withRouter(connect(mapStateToProps , mapDispatchToProps)(PostDetail));

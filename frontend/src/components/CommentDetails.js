@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class CommentDetails extends Component{
 
     render() {
-        
-        var comments = this.props.comments;
+        let comments = this.props.comments;
+
         return (
             <span>
                 <Grid style={{backgroundColor: '#FFFFFF'}}>
@@ -16,7 +17,7 @@ class CommentDetails extends Component{
                         </Col>       
                         <Col xs={4} md={8}> 
                             <span className="pull-right"> 
-                                <Link to="#"><h4>Add</h4></Link> 
+                             <Link to={{ pathname: "/comments/add", state: { modal: true }}}><h4>Add</h4></Link> 
                             </span>
                         </Col>       
                     </Row>
@@ -32,8 +33,7 @@ class CommentDetails extends Component{
                 </Grid>
             </span>
         );
-
     }
 }
 
-export default CommentDetails;
+export default withRouter(CommentDetails);

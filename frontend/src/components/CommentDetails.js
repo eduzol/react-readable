@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col} from 'react-bootstrap';
+import { Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import * as  ReadableAPI from '../utils/api.js'; 
@@ -47,7 +47,13 @@ class CommentDetails extends Component{
                     {comments.map( (comment) => (
                     <Row key={comment.id} className="show-grid">
                         <Col xs={12} md={12}>
-                            <h5><span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }. {comment.voteScore} votes</span>
+                            <h5>
+                                <span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }.
+                                {comment.voteScore} votes
+                                </span> &nbsp;  &nbsp;
+                                <a role="button"><Glyphicon glyph="arrow-up" /></a>
+                                &nbsp;
+                                <a role="button"><Glyphicon glyph="arrow-down" /></a>
                             { currentUser === comment.author?
                                 <span className="pull-right">
                                     <a  name={comment.id} role="button" onClick={this.editComment}>Edit </a> |

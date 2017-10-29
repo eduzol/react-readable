@@ -64,7 +64,6 @@ function getAll (token) {
 
 function add (token, post) {
   return new Promise((res) => {
-    console.log('adding post ' , post);
     let posts = getData(token)
     
     posts[post.id] = {
@@ -101,10 +100,12 @@ function vote (token, id, option) {
 }
 
 function disable (token, id) {
+    console.log('disable: token  ' + token + ' , id ' + id);
     return new Promise((res) => {
-      let posts = getData(token)
-      posts[id].deleted = true
-      res(posts[id])
+      let posts = getData(token);
+      posts[id].deleted = true;
+      console.log('post deleted  ' , posts[id]);
+      res(posts[id]);
     })
 }
 

@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as ReadableAPI from '../utils/api';
 import serializeForm from 'form-serialize';
-import { loadComments, setCurrentPost } from '../actions';
+import { loadComments,loadComment, setCurrentPost } from '../actions';
 
-class NewCommentForm extends Component {
+class CommentForm extends Component {
 
     state = {
         body : '', 
@@ -14,6 +14,19 @@ class NewCommentForm extends Component {
         timestamp : ''
     };
 
+    componentDidMount(){
+
+        let editable = this.props.editable;
+        if ( editable === "true"){
+            let comment = this.props.comments.find((comment) => comment.id === this.props.commentId); 
+            if ( comment ){
+                this.setState({body : comment.body});
+            }else{
+                this.closePostModal();
+            }
+        }
+        
+    }
     closePostModal = () =>{
         let postId = this.props.postId;
         this.props.setCurrentPost(postId);
@@ -37,25 +50,44 @@ class NewCommentForm extends Component {
         e.preventDefault();
         const values =serializeForm(e.target, {hash:true});
         let postId = this.props.postId;
-        var newComment = {
-            id: Math.random().toString(36).substr(-8),
-            timestamp: Date.now(),
-            body:values.body,  
-            author:  localStorage.token ? localStorage.token : 'anon' ,  
-            parentId: postId
-          };
-          ReadableAPI.commentPost(newComment).then((comment) => {
-            this.props.loadComments( [comment] , postId);
-            this.props.setCurrentPost(postId);
-            this.props.history.push("/post/"+postId);
-          });
+
+        let editable = this.props.editable;
+        if ( editable === "true"){
+
+            let commentId = this.props.commentId;
+            let comment = {
+                body : values.body, 
+                owner: localStorage.token
+            };
+            ReadableAPI.editComment(commentId,  comment).then((response) => {
+                  this.props.loadComment(response);
+                  this.closePostModal();
+            });
+        }else
+        {
+            var newComment = {
+                id: Math.random().toString(36).substr(-8),
+                timestamp: Date.now(),
+                body:values.body,  
+                author:  localStorage.token ? localStorage.token : 'anon' ,  
+                parentId: postId
+              };
+            ReadableAPI.commentPost(newComment).then((comment) => {
+                this.props.loadComments( [comment] , postId);
+                this.props.setCurrentPost(postId);
+                this.props.history.push("/post/"+postId);
+              });
+
+        }
+       
     }
 
     render() {
        
         return (
             <span>
-                <Modal show={this.props.location.pathname === '/comments/add'} onHide={this.closePostModal}>
+                <Modal show={this.props.location.pathname === '/comments/add'
+                             || this.props.location.pathname === '/comments/edit'} onHide={this.closePostModal}>
                 <form  onSubmit={this.handleSubmit}>
                 <Modal.Header>
                     <Modal.Title>Add new comment</Modal.Title>
@@ -92,15 +124,18 @@ class NewCommentForm extends Component {
 
 function  mapStateToProps (state ){
     return {
-      postId : state.currentPost
+      postId : state.currentPost, 
+      comments: state.comments, 
+      commentId : state.currentComment
     };
 }
 
 function mapDispatchToProps(dispatch){
     return {
+      loadComment : (data) => dispatch(loadComment(data)),
       loadComments : (data, id) => dispatch(loadComments(data, id)), 
       setCurrentPost : (postId) => dispatch(setCurrentPost(postId))
     }
   }
   
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(NewCommentForm));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(CommentForm));

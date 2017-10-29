@@ -25,7 +25,6 @@ class PostForm extends Component{
             let postId = this.props.currentPost;
             let post = this.props.posts.filter((post) => post.id === postId )[0];
             if (post){
-                console.log('post to edit ', post );
                 this.setState({
                     id : postId, 
                     title: post.title, 

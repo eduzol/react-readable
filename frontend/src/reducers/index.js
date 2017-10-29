@@ -32,10 +32,11 @@ function categoriesReducer( state = initialState , action ){
             };
 
         case LOAD_POST :
-            
+            let updatedPosts = state.posts.filter( (post) => post.id !== action.post.id);    
+        
             return {
                 ...state, 
-                'posts' : state.posts.concat(action.post)
+                'posts' : updatedPosts.concat(action.post)
             };
 
         case SET_CATEGORY :

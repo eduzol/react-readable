@@ -100,8 +100,13 @@ class App extends Component {
       </Jumbotron>
       )} />
       <Route exact path="/new"  render={ () => (
-        <NewPostForm />
+        <NewPostForm editable="false" />
       )} />
+
+      <Route exact path="/edit"  render={ () => (
+        <NewPostForm editable="true" />
+      )} />
+
       <Route exact path="/post/:id" component={PostDetail} />
       <Route exact path="/comments/add" component={NewCommentForm} />
     

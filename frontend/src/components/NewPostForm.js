@@ -19,7 +19,23 @@ class NewPostForm extends Component{
     };
 
     componentDidMount(){
-        console.log('*** NewPostForm :  Component did mount');
+      
+        let editable = this.props.editable;
+        if ( editable === "true"){
+            let postId = this.props.currentPost;
+            let post = this.props.posts.filter((post) => post.id === postId )[0];
+            if (post){
+                console.log('post to edit ', post );
+                this.setState({
+                    id : postId, 
+                    title: post.title, 
+                    body: post.body, 
+                    category: post.category
+                });
+            }else{
+                this.closePostModal();
+            }
+        }
      }
 
     getTitleValidationState = ( ) => {
@@ -47,31 +63,49 @@ class NewPostForm extends Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        let editable = this.props.editable;
         const values =serializeForm(e.target, {hash:true});
+        if ( editable === "false"){
+           
+            let post = {
+                id : Math.random().toString(36).substr(-8) , 
+                timestamp: Date.now(),
+                title : values.title, 
+                body : values.body, 
+                author : localStorage.token ? localStorage.token : 'anon' , 
+                category : values.category
+              };
+          
+              ReadableAPI.addPost(post).then((response) => {
+                this.props.loadPost(response);
+                this.props.history.push("/");
+              });
+        }else{
+            let postId = this.props.currentPost;
+            let post  ={
+                title : values.title, 
+                body: values.body, 
+                category: values.category
+            }
+
+            ReadableAPI.editPost(postId,post ).then((response) => {
+                this.props.loadPost(response);
+                this.props.history.push('/post/'+postId);
+            });
+        }
         
-        var post = {
-            id : Math.random().toString(36).substr(-8) , 
-            timestamp: Date.now(),
-            title : values.title, 
-            body : values.body, 
-            author : localStorage.token ? localStorage.token : 'anon' , 
-            category : values.category
-          };
-      
-          ReadableAPI.addPost(post).then((response) => {
-            this.props.loadPost(response);
-            this.props.history.push("/");
-          });
     }
 
     render(){
         let categories = this.props.categories;
-        
+        let title = this.props.editable === "true" ? "Edit post" : "Create new post";
         return (
-            <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>
+            <Modal show={this.props.location.pathname === '/new'
+                        || this.props.location.pathname === '/edit' } onHide={this.closePostModal}>
             <form  onSubmit={this.handleSubmit}>
             <Modal.Header>
-                <Modal.Title>Create New Post</Modal.Title>
+                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                         <FormGroup controlId='form-title'
@@ -102,7 +136,7 @@ class NewPostForm extends Component{
                             <ControlLabel>Category</ControlLabel>
                             <FormControl name="category" componentClass="select" placeholder="select">
                             {categories.map( (category) => 
-                                (<option key={category.name} value={category.name}>{category.name}</option>  )   
+                                (<option key={category.name} value={category.name} selected={(this.state.category===category.name)}>{category.name}</option>  )   
                             )}
                             </FormControl>
                         </FormGroup>
@@ -125,7 +159,9 @@ class NewPostForm extends Component{
 
 function  mapStateToProps (state ){
     return {
-      categories: state.categories
+      categories: state.categories, 
+      currentPost : state.currentPost, 
+      posts : state.posts
     };
   }
 

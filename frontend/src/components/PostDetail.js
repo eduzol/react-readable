@@ -49,7 +49,7 @@ class PostDetail extends Component{
                                      {currentUser === post.author? 
                                             <span>
                                                  &nbsp;  &nbsp;
-                                                 <Link to="#">
+                                                 <Link to="/edit">
                                                  Edit
                                                  </Link>
                                                  &nbsp;

@@ -47,7 +47,6 @@ class PostDetail extends Component{
         ReadableAPI.votePost(postId, 'downVote').then((response) => {
             this.props.loadPost(response);
           });
-
     }
 
     componentDidMount(){

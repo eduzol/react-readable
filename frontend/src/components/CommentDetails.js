@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import { Grid, Row, Col,  Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import * as  ReadableAPI from '../utils/api.js'; 
@@ -21,6 +21,23 @@ class CommentDetails extends Component{
         let commentId = element.target.name ;
         this.props.setCurrentComment(commentId);
         this.props.history.push('/comments/edit');
+    }
+
+    upVote  = (element) => {
+        element.preventDefault();
+        let commentId =  element.currentTarget.getAttribute('name');
+        ReadableAPI.voteComment(commentId, 'upVote').then((response) => {
+            this.props.loadComment(response );
+        });
+        
+    }
+
+    downVote = (element) => {
+        element.preventDefault();
+        let commentId =  element.currentTarget.getAttribute('name');
+        ReadableAPI.voteComment(commentId, 'downVote').then((response) => {
+            this.props.loadComment(response );
+        });
     }
 
     render() {
@@ -51,9 +68,8 @@ class CommentDetails extends Component{
                                 <span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }.
                                 {comment.voteScore} votes
                                 </span> &nbsp;  &nbsp;
-                                <a role="button"><Glyphicon glyph="arrow-up" /></a>
-                                &nbsp;
-                                <a role="button"><Glyphicon glyph="arrow-down" /></a>
+                                <a  name={comment.id} role="button" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></a>
+                                <a  name={comment.id} role="button" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></a>
                             { currentUser === comment.author?
                                 <span className="pull-right">
                                     <a  name={comment.id} role="button" onClick={this.editComment}>Edit </a> |

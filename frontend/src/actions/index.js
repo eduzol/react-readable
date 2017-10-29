@@ -3,6 +3,7 @@ export const LOAD_POSTS = "LOAD_POSTS";
 export const LOAD_POST = "LOAD_POST";
 export const SET_CATEGORY = "SET_CATEGORY";
 export const LOAD_COMMENTS = "LOAD_COMMENTS";
+export const SET_CURRENT_POST = "SET_CURRENT_POST";
 
 export function loadCategories ( categories ){
 
@@ -38,6 +39,13 @@ export function loadComments(comments, postId){
     return {
         type: LOAD_COMMENTS , 
         comments, 
+        postId
+    }
+}
+
+export function setCurrentPost( postId ){
+    return {
+        type : SET_CURRENT_POST, 
         postId
     }
 }

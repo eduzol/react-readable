@@ -11,6 +11,7 @@ import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 
 import { Route } from 'react-router-dom';
 import {Link, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import NewCommentForm from './NewCommentForm';
 
 class App extends Component {
 
@@ -63,7 +64,7 @@ class App extends Component {
       <Navbar inverse fixedTop>
         <Grid>
         <Row className="show-grid">
-          <Col xs={6} md={4}> 
+          <Col xs={8} md={4}> 
               <Navbar.Header>
                 <Navbar.Brand>
                   <Link to="/reader/categories/all" >
@@ -73,17 +74,19 @@ class App extends Component {
               <Navbar.Toggle />
             </Navbar.Header>
            </Col>
-          <Col xs={6} md={4}>
+          <Col xs={4} md={8}>
+          <span className="pull-right"> 
               <Navbar.Header>
               <Navbar.Brand>
                 <ButtonToolbar>
                   <Link to={{ pathname: "/new", state: { modal: true }}}>
-                  <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Create Post</Button>
+                  <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Post Something</Button>
                   </Link>
                 </ButtonToolbar>
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
+            </span>
           </Col>
           <Col xsHidden md={4}> </Col>
         </Row>
@@ -120,6 +123,7 @@ class App extends Component {
         </Modal>
       )} />
       <Route exact path="/post/:id" component={PostDetail} />
+      <Route exact path="/comments/add" component={NewCommentForm} />
     
     </div>
     );

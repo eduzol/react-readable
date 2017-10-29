@@ -49,9 +49,7 @@ class PostDetail extends Component{
         let post = this.props.posts.find(function(post){ return post.id === postId});
         if (post){
             var date =  moment.unix(post.timestamp/1000).format("MM-DD-YYYY HH:mm");
-            var comments = this.props.comments.filter((comment) => comment.parentId === postId ).sort(function(c1, c2){
-               return  c2.voteScore - c1.voteScore;
-            });
+            
             this.props.setCurrentPost(postId);
             var currentUser = localStorage.token;
         }
@@ -62,7 +60,7 @@ class PostDetail extends Component{
             <Jumbotron>
                 <Grid >
                     <Row className="show-grid">
-                        <Col xs={12} md={8}>
+                        <Col xs={10} md={8}>
                             <Grid>
                                 <Row className="show-grid">
                                 <Col xs={12} md={12}>
@@ -75,7 +73,7 @@ class PostDetail extends Component{
                                                  <Link to="/edit">
                                                  Edit
                                                  </Link>
-                                                 &nbsp;
+                                                 &nbsp;|&nbsp;
                                                  <a role="button" onClick={this.showWarning}>
                                                  Delete     
                                                  </a>
@@ -106,8 +104,8 @@ class PostDetail extends Component{
                                 </Row>
                             </Grid> 
                         </Col>
-                        <Col xs={6} md={4} >
-                          <CommentDetails postId={postId} comments={comments} />
+                        <Col xs={8} md={4} >
+                          <CommentDetails />
                         </Col>
                     </Row>
                 </Grid>
@@ -135,6 +133,6 @@ function mapDispatchToProps(dispatch){
       setCurrentPost : (postId) => dispatch(setCurrentPost(postId)), 
       loadPost : (data) => dispatch(loadPost(data))
     }
-  }
+}
   
 export default withRouter(connect(mapStateToProps , mapDispatchToProps)(PostDetail));

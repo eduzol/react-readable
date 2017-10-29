@@ -3,6 +3,7 @@ import {
     LOAD_POSTS, 
     LOAD_POST, 
     LOAD_COMMENTS,
+    LOAD_COMMENT,
     SET_CATEGORY, 
     SET_CURRENT_POST
 } from '../actions';
@@ -51,7 +52,14 @@ function categoriesReducer( state = initialState , action ){
             return {
                 ...state, 
                 'comments':updatedComments.concat(action.comments)
-            }
+            };
+
+        case LOAD_COMMENT:
+            let uComments = state.comments.filter( (comment) => comment.id !== action.comment.id);    
+            return {
+                ...state, 
+                'comments':uComments.concat(action.comment)
+            };
 
         case SET_CURRENT_POST:
             return {

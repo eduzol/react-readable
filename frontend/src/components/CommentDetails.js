@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col} from 'react-bootstrap';
+import { Grid, Row, Col,  Glyphicon} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import * as  ReadableAPI from '../utils/api.js'; 
@@ -23,6 +23,23 @@ class CommentDetails extends Component{
         this.props.history.push('/comments/edit');
     }
 
+    upVote  = (element) => {
+        element.preventDefault();
+        let commentId =  element.currentTarget.getAttribute('name');
+        ReadableAPI.voteComment(commentId, 'upVote').then((response) => {
+            this.props.loadComment(response );
+        });
+        
+    }
+
+    downVote = (element) => {
+        element.preventDefault();
+        let commentId =  element.currentTarget.getAttribute('name');
+        ReadableAPI.voteComment(commentId, 'downVote').then((response) => {
+            this.props.loadComment(response );
+        });
+    }
+
     render() {
 
         let postId =  this.props.currentPost;
@@ -35,10 +52,10 @@ class CommentDetails extends Component{
             <span>
                 <Grid style={{backgroundColor: '#FFFFFF'}}>
                     <Row className="show-grid">
-                        <Col xs={8} md={4}> 
-                            <h4>Comments</h4>
+                        <Col xs={10} md={6}> 
+                            <h4> {comments.length} Comments</h4>
                         </Col>       
-                        <Col xs={4} md={8}> 
+                        <Col xs={2} md={6}> 
                             <span className="pull-right"> 
                              <Link to={{ pathname: "/comments/add", state: { modal: true }}}><h4>Add</h4></Link> 
                             </span>
@@ -47,7 +64,12 @@ class CommentDetails extends Component{
                     {comments.map( (comment) => (
                     <Row key={comment.id} className="show-grid">
                         <Col xs={12} md={12}>
-                            <h5><span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }. {comment.voteScore} votes</span>
+                            <h5>
+                                <span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }.
+                                {comment.voteScore} votes
+                                </span> &nbsp;  &nbsp;
+                                <a  name={comment.id} role="button" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></a>
+                                <a  name={comment.id} role="button" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></a>
                             { currentUser === comment.author?
                                 <span className="pull-right">
                                     <a  name={comment.id} role="button" onClick={this.editComment}>Edit </a> |

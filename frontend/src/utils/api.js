@@ -62,6 +62,16 @@ export const votePost = (id, vote) => {
     .then(res => res.json());
 }
 
+export const voteComment = (id, vote) => {
+    id = id.trim();
+    vote = vote.trim();
+    return fetch(`${api}/comments/${id}`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({option:vote})})
+    .then(res => res.json());
+}
+
 export const editPost = (id, post) => {
     id = id.trim();
     

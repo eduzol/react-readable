@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col,  Jumbotron, Alert , Button} from 'react-bootstrap';
+import { Grid, Row, Col,  Jumbotron, Alert , Button, Glyphicon} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {Link} from 'react-router-dom';
@@ -33,6 +33,22 @@ class PostDetail extends Component{
         });
     }
 
+    upVote  = (e) => {
+        e.preventDefault();
+        let postId = this.props.match.params.id;
+        ReadableAPI.votePost(postId, 'upVote').then((response) => {
+            this.props.loadPost(response);
+          });
+    }
+
+    downVote = (e) => {
+        e.preventDefault();
+        let postId = this.props.match.params.id;
+        ReadableAPI.votePost(postId, 'downVote').then((response) => {
+            this.props.loadPost(response);
+          });
+    }
+
     componentDidMount(){
         
         let postId = this.props.match.params.id;
@@ -63,9 +79,13 @@ class PostDetail extends Component{
                             <Grid>
                                 <Row className="show-grid">
                                 <Col xs={12} md={12}>
-                                    <h2>{post.title}</h2>
+                                    <h2>
+                                        {post.title} 
+                                     </h2>
                                     <h5>Submitted by <span style={{fontWeight: 'bold'}}> {post.author} </span> on {date}.
-                                    <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> 
+                                    <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> &nbsp;  &nbsp; 
+                                        <Button bsSize="xsmall" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></Button>
+                                        <Button bsSize="xsmall" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></Button>
                                      {currentUser === post.author? 
                                             <span>
                                                  &nbsp;  &nbsp;

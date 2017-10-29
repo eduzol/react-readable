@@ -52,10 +52,10 @@ class CommentDetails extends Component{
             <span>
                 <Grid style={{backgroundColor: '#FFFFFF'}}>
                     <Row className="show-grid">
-                        <Col xs={8} md={4}> 
-                            <h4>Comments</h4>
+                        <Col xs={10} md={6}> 
+                            <h4> {comments.length} Comments</h4>
                         </Col>       
-                        <Col xs={4} md={8}> 
+                        <Col xs={2} md={6}> 
                             <span className="pull-right"> 
                              <Link to={{ pathname: "/comments/add", state: { modal: true }}}><h4>Add</h4></Link> 
                             </span>

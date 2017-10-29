@@ -92,8 +92,6 @@ export const commentPost = (post) => {
 
 export const editComment = (id, comment) => {
     id = id.trim();
-    comment = comment.trim();
-
     return fetch(`${api}/comments/${id}`, {
         method: 'PUT',
         headers: headers,

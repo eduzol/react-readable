@@ -5,7 +5,8 @@ import {
     LOAD_COMMENTS,
     LOAD_COMMENT,
     SET_CATEGORY, 
-    SET_CURRENT_POST
+    SET_CURRENT_POST, 
+    SET_CURRENT_COMMENT
 } from '../actions';
 
 var initialState  = {
@@ -13,7 +14,8 @@ var initialState  = {
     posts : [], 
     comments : [],
     currentCategory : 'all', 
-    currentPost : ''
+    currentPost : '', 
+    currentComment :''
 };
 
 function categoriesReducer( state = initialState , action ){
@@ -65,7 +67,14 @@ function categoriesReducer( state = initialState , action ){
             return {
                 ...state, 
                 'currentPost' : action.postId
-            }
+            };
+        
+        case SET_CURRENT_COMMENT:
+            return {
+                ...state, 
+                'currentComment' : action.commentId
+            };
+
         default:
             return state;
 

@@ -49,7 +49,6 @@ class PostDetail extends Component{
         let post = this.props.posts.find(function(post){ return post.id === postId});
         if (post){
             var date =  moment.unix(post.timestamp/1000).format("MM-DD-YYYY HH:mm");
-            
             this.props.setCurrentPost(postId);
             var currentUser = localStorage.token;
         }

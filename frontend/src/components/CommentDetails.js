@@ -4,19 +4,23 @@ import { Grid, Row, Col} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import * as  ReadableAPI from '../utils/api.js'; 
-import { loadComment } from '../actions';
+import { loadComment, setCurrentComment } from '../actions';
 
 class CommentDetails extends Component{
 
     deleteComment = (element) =>{
-        console.log('comment to delete ', element.target.name  );
         let commentId = element.target.name ;
         ReadableAPI.deleteComment(commentId).then((response) => {
-            console.log('delete commentId ' , response );
             this.props.loadComment(response );
             this.props.history.push('/post/'+this.props.currentPost);
         });
 
+    }
+
+    editComment = (element) => {
+        let commentId = element.target.name ;
+        this.props.setCurrentComment(commentId);
+        this.props.history.push('/comments/edit');
     }
 
     render() {
@@ -46,7 +50,7 @@ class CommentDetails extends Component{
                             <h5><span style={{fontWeight: 'bold'}}>{comment.author?comment.author:'anon' }. {comment.voteScore} votes</span>
                             { currentUser === comment.author?
                                 <span className="pull-right">
-                                    <a  role="button">Edit </a> |
+                                    <a  name={comment.id} role="button" onClick={this.editComment}>Edit </a> |
                                     <a  name={comment.id} role="button" onClick={this.deleteComment}> Delete</a>
                                 </span>
                             : <span></span>}
@@ -70,7 +74,8 @@ function  mapStateToProps (state ){
 
 function mapDispatchToProps(dispatch){
     return {
-      loadComment : (data) => dispatch(loadComment(data))
+      loadComment : (data) => dispatch(loadComment(data)),
+      setCurrentComment : (data)=> dispatch(setCurrentComment(data))
     }
 }
 

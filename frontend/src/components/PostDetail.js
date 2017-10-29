@@ -30,7 +30,6 @@ class PostDetail extends Component{
                return  c2.voteScore - c1.voteScore;
             });
             this.props.setCurrentPost(postId);
-            var author  = post.author;
             var currentUser = localStorage.token;
         }
       

@@ -7,7 +7,7 @@ import PostList from './PostList';
 import PostDetail from './PostDetail';
 import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
-import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button,Modal } from 'react-bootstrap';
+import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 import {Link, Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -32,14 +32,6 @@ class App extends Component {
     if (this.props.location !== prevProps.location) {
       this.handleUrlChange();
     }
-  }
-
-  openPostModal = () => {
-   
-  }
-
-  closePostModal = () =>{
-    
   }
 
   handleUrlChange = () =>{
@@ -108,19 +100,7 @@ class App extends Component {
       </Jumbotron>
       )} />
       <Route exact path="/new"  render={ () => (
-        <Modal show={this.props.location.pathname === '/new'} onHide={this.closePostModal}>
-          <Modal.Header>
-              <Modal.Title>Create New Post</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <NewPostForm onNewPost={this.closePostModal} />
-          </Modal.Body>
-          <Modal.Footer>
-            <Link to="/reader/categories/all">
-              <Button onClick={this.closePostModal}>Close</Button>
-            </Link>
-          </Modal.Footer>
-        </Modal>
+        <NewPostForm />
       )} />
       <Route exact path="/post/:id" component={PostDetail} />
       <Route exact path="/comments/add" component={NewCommentForm} />

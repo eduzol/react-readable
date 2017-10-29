@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col,  Jumbotron} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import * as moment from 'moment/moment';
 import * as  ReadableAPI from '../utils/api.js'; 
 import { loadComments, setCurrentPost } from '../actions';
@@ -29,6 +30,7 @@ class PostDetail extends Component{
                return  c2.voteScore - c1.voteScore;
             });
             this.props.setCurrentPost(postId);
+            var currentUser = localStorage.token;
         }
       
         return (
@@ -43,8 +45,21 @@ class PostDetail extends Component{
                                 <Col xs={12} md={12}>
                                     <h2>{post.title}</h2>
                                     <h5>Submitted by <span style={{fontWeight: 'bold'}}> {post.author} </span> on {date}.
-                                     <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> </h5>
-                                </Col>     
+                                    <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> 
+                                     {currentUser === post.author? 
+                                            <span>
+                                                 &nbsp;  &nbsp;
+                                                 <Link to="/edit">
+                                                 Edit
+                                                 </Link>
+                                                 &nbsp;
+                                                 <Link to="#">
+                                                 Delete
+                                                 </Link>
+                                            </span> : 
+                                            <span></span> }
+                                     </h5>
+                                </Col>    
                                 </Row>
                                 <Row className="show-grid">
                                 <Col xs={12} md={12}>

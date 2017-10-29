@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import {Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as ReadableAPI from '../utils/api';
@@ -56,28 +56,34 @@ class NewCommentForm extends Component {
         return (
             <span>
                 <Modal show={this.props.location.pathname === '/comments/add'} onHide={this.closePostModal}>
+                <form  onSubmit={this.handleSubmit}>
                 <Modal.Header>
                     <Modal.Title>Add new comment</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                        <form  onSubmit={this.handleSubmit}>
                         <FormGroup controlId='form-comment'
                             validationState={this.getCommentValidationState()}>
-                            <ControlLabel>Comment</ControlLabel>
+                           
                             <FormControl
                                 name = "body"
-                                type="text"
+                                componentClass="textarea"
                                 value={this.state.body}
                                 placeholder="Enter your comment"
                                 onChange={this.handleChange}
                             />
                             <FormControl.Feedback />
                         </FormGroup>
-                        <Button type="submit"> Submit </Button>
-                        </form>
+                       
                 </Modal.Body>
                 <Modal.Footer>
+                     <span  className="pull-left"> 
+                        <Button onClick={this.closePostModal}>Cancel</Button>
+                    </span>
+                    <span  className="pull-right"> 
+                        <Button type="submit"  bsStyle="primary">Submit </Button> 
+                    </span>
                 </Modal.Footer>
+                </form>
                 </Modal>
             </span>
         );

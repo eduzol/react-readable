@@ -24,7 +24,7 @@ class PostList extends Component{
     render() {
         
         let posts = [];
-        let sortedPosts = this.props.posts.sort(function(postA, postB){
+        let sortedPosts = this.props.posts.filter( post => post.deleted === false).sort(function(postA, postB){
                 return postB.voteScore - postA.voteScore;
         });
        

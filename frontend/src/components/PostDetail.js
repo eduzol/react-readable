@@ -1,14 +1,37 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col,  Jumbotron} from 'react-bootstrap';
+import { Grid, Row, Col,  Jumbotron, Alert , Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import * as moment from 'moment/moment';
 import * as  ReadableAPI from '../utils/api.js'; 
-import { loadComments, setCurrentPost } from '../actions';
+import { loadComments, setCurrentPost, loadPost } from '../actions';
 import CommentDetails from './CommentDetails';
 
 class PostDetail extends Component{
+
+    state = {
+        showDeleteWarning :false
+    };
+
+    showWarning  = (e) => {
+        e.preventDefault();
+        this.setState({showDeleteWarning :true});
+    }
+
+    hideWarning  = (e) => {
+        e.preventDefault();
+        this.setState({showDeleteWarning :false});
+    }
+
+    deletePost  = (e) => {
+        e.preventDefault();
+        let postId = this.props.match.params.id;
+        ReadableAPI.deletePost(postId).then((response) => {
+            this.props.loadPost(response);
+            this.props.history.push("/");
+        });
+    }
 
     componentDidMount(){
         
@@ -53,9 +76,9 @@ class PostDetail extends Component{
                                                  Edit
                                                  </Link>
                                                  &nbsp;
-                                                 <Link to="#">
-                                                 Delete
-                                                 </Link>
+                                                 <a role="button" onClick={this.showWarning}>
+                                                 Delete     
+                                                 </a>
                                             </span> : 
                                             <span></span> }
                                      </h5>
@@ -63,7 +86,17 @@ class PostDetail extends Component{
                                 </Row>
                                 <Row className="show-grid">
                                 <Col xs={12} md={12}>
-                                
+                                        {this.state.showDeleteWarning === true ? 
+                                            <Alert bsStyle="danger">This will delete this post, are you sure?&nbsp;  
+                                            
+                                             <Button bsStyle="link" onClick={this.deletePost}>
+                                             Yes
+                                             </Button> , 
+                                             <Button bsStyle="link" onClick={this.hideWarning}>No
+                                             </Button>
+                                             </Alert>
+
+                                            : <span></span> }
                                 </Col>     
                                 </Row>
                                 <Row className="show-grid">
@@ -99,7 +132,8 @@ function  mapStateToProps (state ){
 function mapDispatchToProps(dispatch){
     return {
       loadComments : (data, id) => dispatch(loadComments(data, id)), 
-      setCurrentPost : (postId) => dispatch(setCurrentPost(postId))
+      setCurrentPost : (postId) => dispatch(setCurrentPost(postId)), 
+      loadPost : (data) => dispatch(loadPost(data))
     }
   }
   

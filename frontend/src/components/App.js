@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import * as  ReadableAPI from '../utils/api.js'; 
 import CategoriesList from './CategoriesList';
-import NewPostForm from './NewPostForm';
+import PostForm from './PostForm';
 import PostList from './PostList';
 import PostDetail from './PostDetail';
 import { loadCategories , loadPosts,  setCategory } from '../actions';
@@ -100,11 +100,11 @@ class App extends Component {
       </Jumbotron>
       )} />
       <Route exact path="/new"  render={ () => (
-        <NewPostForm editable="false" />
+        <PostForm editable="false" />
       )} />
 
       <Route exact path="/edit"  render={ () => (
-        <NewPostForm editable="true" />
+        <PostForm editable="true" />
       )} />
 
       <Route exact path="/post/:id" component={PostDetail} />

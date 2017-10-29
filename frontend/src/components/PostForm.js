@@ -7,7 +7,7 @@ import serializeForm from 'form-serialize';
 import { loadPost } from '../actions';
 import { withRouter } from 'react-router-dom';
 
-class NewPostForm extends Component{
+class PostForm extends Component{
 
     state = {
         id : '',
@@ -170,4 +170,4 @@ function mapDispatchToProps(dispatch){
       loadPost : (data) => dispatch(loadPost(data))
     }
   }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewPostForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostForm));

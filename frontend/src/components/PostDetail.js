@@ -75,6 +75,9 @@ class PostDetail extends Component{
             <Jumbotron>
                 <Grid >
                     <Row className="show-grid">
+                    <Col md={4}><br/> </Col>
+                    </Row>
+                    <Row className="show-grid">
                         <Col xs={10} md={8}>
                             <Grid>
                                 <Row className="show-grid">

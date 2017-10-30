@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {FormGroup, FormControl, ControlLabel, Button,Modal } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as ReadableAPI from '../utils/api';
 import serializeForm from 'form-serialize';
 import { loadPost } from '../actions';
-import { withRouter } from 'react-router-dom';
+
 
 class PostForm extends Component{
 

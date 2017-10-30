@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as  ReadableAPI from '../utils/api.js'; 
-import CategoriesList from './CategoriesList';
 import PostForm from './PostForm';
-import PostList from './PostList';
 import PostDetail from './PostDetail';
+import Header from './Header';
+import Main from './Main';
 import { loadCategories , loadPosts,  setCategory } from '../actions';
 import { connect } from 'react-redux';
-import { Grid, Navbar, Jumbotron, Row, Col, ButtonToolbar , Button } from 'react-bootstrap';
-import { Route } from 'react-router-dom';
-import {Link, Redirect} from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Route,Redirect ,  withRouter } from 'react-router-dom';
 import CommentForm from './CommentForm';
 
 class App extends Component {
@@ -53,74 +50,36 @@ class App extends Component {
 
     return (
       <div>
-      <Navbar inverse fixedTop>
-        <Grid>
-        <Row className="show-grid">
-          <Col xs={8} md={4}> 
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to="/reader/categories/all" >
-                  Readable
-                  </Link>
-                </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-           </Col>
-          <Col xs={4} md={8}>
-          <span className="pull-right"> 
-              <Navbar.Header>
-              <Navbar.Brand>
-                <ButtonToolbar>
-                  <Link to={{ pathname: "/new", state: { modal: true }}}>
-                  <Button bsSize="small"  bsStyle="primary" active onClick={this.openPostModal}>Post Something</Button>
-                  </Link>
-                </ButtonToolbar>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            </span>
-          </Col>
-          <Col xsHidden md={4}> </Col>
-        </Row>
-        </Grid>
-      </Navbar>
-      <Route exact path="/" render={() => <Redirect to="/reader" />} />
-      <Route path="/reader" render={ () => (
-      <Jumbotron>
-          <Grid>
-          <Row className="show-grid">
-              <Col xs={6} md={4}>
-                <CategoriesList categories={categories} />
-              </Col>
-              <Col xs={12} md={8}>
-                <PostList posts={posts} />
-              </Col>     
-          </Row>
-        </Grid> 
-      </Jumbotron>
-      )} />
-      <Route exact path="/new"  render={ () => (
-        <PostForm editable="false" />
-      )} />
 
-      <Route exact path="/edit"  render={ () => (
-        <PostForm editable="true" />
-      )} />
+        <Header />
 
-      <Route exact path="/post/:id" component={PostDetail} />
+        <Route exact path="/" render={() => <Redirect to="/reader" />} />
+        <Route path="/reader" render={ () => (
+          <Main categories={categories} posts={posts} />
+        )} />
+        <Route exact path="/new"  render={ () => (
+          <PostForm editable="false" />
+        )} />
 
-      <Route exact path="/comments/add"  render={ () => (
-          <CommentForm editable="false" />
-      )} />
+        <Route exact path="/edit"  render={ () => (
+          <PostForm editable="true" />
+        )} />
 
-      <Route exact path="/comments/edit"  render={ () => (
-          <CommentForm editable="true" />
-      )} />
+        <Route exact path="/post/:id" component={PostDetail} />
+
+        <Route exact path="/comments/add"  render={ () => (
+            <CommentForm editable="false" />
+        )} />
+
+        <Route exact path="/comments/edit"  render={ () => (
+            <CommentForm editable="true" />
+        )} />
     
-    </div>
+      </div>
     );
   }
 }
+
 function  mapStateToProps (state ){
   return {
     categories: state.categories, 

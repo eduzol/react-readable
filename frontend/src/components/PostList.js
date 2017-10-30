@@ -38,7 +38,7 @@ class PostList extends Component{
 
         return (
             <div className="list-component posts">
-                <BootstrapTable data={posts} hover keyField='id'>
+                <BootstrapTable data={posts} hover keyField='id' trClassName='tr-background'>
                   <TableHeaderColumn dataField='title' width='70%' dataFormat={this.linkFormatter}>Posts</TableHeaderColumn>
                   <TableHeaderColumn dataField='timestamp' width="20%" dataSort={ true } dataFormat={this.dateFormatter}>Date</TableHeaderColumn>
                   <TableHeaderColumn dataField='voteScore' width="10%" dataSort={ true }>Score</TableHeaderColumn>

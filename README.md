@@ -4,8 +4,12 @@ The app features a news application for users to post, rate and comment on their
 ## Installing
 ```
 1. git clone https://github.com/eduzol/react-readable
-2. npm install
-3. npm start
+2. cd react-readable/server 
+3. npm install
+4. node .\server.js
+5. cd ../frontend
+6. npm install
+7. npm start
 ```
 
 

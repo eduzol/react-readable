@@ -25,6 +25,7 @@ class App extends Component {
     });
 
   }
+  
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.handleUrlChange();
@@ -32,6 +33,7 @@ class App extends Component {
   }
 
   handleUrlChange = () =>{
+
     let path = this.props.location.pathname;
     if ( path.includes('categories') ){
        let category = path.split('/')[3];
@@ -45,6 +47,7 @@ class App extends Component {
   }
 
   render() {
+
     let categories = this.props.categories;
     let posts = this.props.posts;
 
@@ -54,9 +57,13 @@ class App extends Component {
         <Header />
 
         <Route exact path="/" render={() => <Redirect to="/reader" />} />
+
         <Route path="/reader" render={ () => (
+
           <Main categories={categories} posts={posts} />
+
         )} />
+
         <Route exact path="/new"  render={ () => (
           <PostForm editable="false" />
         )} />

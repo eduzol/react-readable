@@ -3,7 +3,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Glyphicon} from 'react-bootstrap';
 import * as moment from 'moment/moment';
 import { connect } from 'react-redux';
-import {  loadPost } from '../actions';
+import {  loadPost, setCurrentPost } from '../actions';
 import * as  ReadableAPI from '../utils/api.js'; 
 import { withRouter } from 'react-router-dom';
 import {Link} from 'react-router-dom';
@@ -13,6 +13,26 @@ class PostList extends Component{
     dateFormatter = (cell, row) => {
         let formattedDate = moment.unix(cell/1000).format("MM-DD-YYYY HH:mm");
         return formattedDate;
+    }
+
+    editPost = (element) => {
+
+        element.preventDefault();
+        let postId =  element.currentTarget.getAttribute('name');
+        this.props.setCurrentPost(postId);
+        this.props.history.push("/edit");
+
+    }
+
+    deletePost = (element) => {
+        
+        element.preventDefault();
+        let postId =  element.currentTarget.getAttribute('name');
+        ReadableAPI.deletePost(postId).then((response) => {
+            this.props.loadPost(response);
+            this.props.history.push("/");
+        });
+
     }
 
     upVote  = (element) => {
@@ -40,12 +60,10 @@ class PostList extends Component{
         let postId = row.id ;
         return (
             <span>
-
                 {cell} &nbsp;  &nbsp;
                 <a  name={postId} role="button" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></a>
                 &nbsp;
                 <a  name={postId} role="button" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></a>
-               
             </span>
         );        
        
@@ -59,7 +77,17 @@ class PostList extends Component{
             <span>
             <Link to={'/post/'+postId}>
                 {cell}
-             </Link>
+            </Link>
+            <span className="pull-right">
+                    &nbsp;  &nbsp;
+                    <a  name={postId} role="button"  onClick={this.editPost}>
+                        Edit
+                    </a>
+                        &nbsp;|&nbsp;
+                    <a name={postId} role="button" onClick={this.deletePost}>
+                    Delete     
+                    </a>
+                </span>
             </span>
         );
     }
@@ -102,7 +130,8 @@ function  mapStateToProps (state ){
 
 function mapDispatchToProps(dispatch){
     return {
-      loadPost : (data) => dispatch(loadPost(data))
+        setCurrentPost : (postId) => dispatch(setCurrentPost(postId)),
+        loadPost : (data) => dispatch(loadPost(data))
     }
 }
 

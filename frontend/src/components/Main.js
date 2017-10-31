@@ -19,10 +19,10 @@ class Main extends Component {
                     <Col md={4}><br/> </Col>
                     </Row>
                     <Row className="show-grid">
-                        <Col xs={6} md={4}>
+                        <Col xs={4} md={2}>
                             <CategoriesList categories={categories} />
                         </Col>
-                        <Col xs={12} md={8}>
+                        <Col xs={12} md={10}>
                             <PostList posts={posts} />
                         </Col>     
                     </Row>

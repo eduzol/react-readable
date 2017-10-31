@@ -5,7 +5,7 @@ import PostForm from './PostForm';
 import PostDetail from './PostDetail';
 import Header from './Header';
 import Main from './Main';
-import { loadCategories , loadPosts,  setCategory } from '../actions';
+import { loadCategories , loadPosts,  setCategory, loadComments } from '../actions';
 import { connect } from 'react-redux';
 import { Route,Redirect ,  withRouter } from 'react-router-dom';
 import CommentForm from './CommentForm';
@@ -22,6 +22,14 @@ class App extends Component {
 
     ReadableAPI.getPosts().then((posts) => {
       this.props.loadPosts(posts);
+
+      posts.forEach((post) => {
+        let postId = post.id;
+        ReadableAPI.getPostComments(postId).then((comments) => {
+            this.props.loadComments( comments, postId);
+        });
+    });
+
     });
 
   }
@@ -97,6 +105,7 @@ function  mapStateToProps (state ){
 
 function mapDispatchToProps(dispatch){
   return {
+    loadComments : (data, id) => dispatch(loadComments(data, id)), 
     loadCategories : (data) => dispatch(loadCategories(data)) , 
     loadPosts : (data) => dispatch(loadPosts(data)), 
     setCategory : (data) => dispatch(setCategory(data))

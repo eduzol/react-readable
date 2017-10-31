@@ -3,7 +3,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Glyphicon} from 'react-bootstrap';
 import * as moment from 'moment/moment';
 import { connect } from 'react-redux';
-import {  loadPost, setCurrentPost } from '../actions';
+import {  loadPost, setCurrentPost, loadComments } from '../actions';
 import * as  ReadableAPI from '../utils/api.js'; 
 import { withRouter } from 'react-router-dom';
 import {Link} from 'react-router-dom';
@@ -72,22 +72,27 @@ class PostList extends Component{
     linkFormatter  = (cell, row) =>  {
         
         let postId = row.id ;
+        let numberOfComments = 0;
+        
+        numberOfComments = this.props.comments.filter(comment => comment.parentId === postId).length;
         
         return (
             <span>
-            <Link to={'/post/'+postId}>
-                {cell}
+            <Link to={'/post/'+postId}> 
+                {cell} &nbsp;  &nbsp;
             </Link>
+           
             <span className="pull-right">
-                    &nbsp;  &nbsp;
-                    <a  name={postId} role="button"  onClick={this.editPost}>
-                        Edit
-                    </a>
-                        &nbsp;|&nbsp;
-                    <a name={postId} role="button" onClick={this.deletePost}>
-                    Delete     
-                    </a>
-                </span>
+            <span className="badge badge-pill badge-primary"> {numberOfComments} comments</span>  
+                &nbsp;  &nbsp;
+                <a  name={postId} role="button"  onClick={this.editPost}>
+                    Edit
+                </a>
+                    &nbsp;|&nbsp;
+                <a name={postId} role="button" onClick={this.deletePost}>
+                Delete     
+                </a>
+             </span>
             </span>
         );
     }
@@ -98,7 +103,7 @@ class PostList extends Component{
         let sortedPosts = this.props.posts.filter( post => post.deleted === false).sort(function(postA, postB){
                 return postB.voteScore - postA.voteScore;
         });
-       
+      
         let activeCategory =  this.props.currentCategory;
 
         if (activeCategory !== 'all'){
@@ -110,9 +115,9 @@ class PostList extends Component{
         return (
             <div className="list-component posts">
                 <BootstrapTable data={posts} hover keyField='id' trClassName='tr-background'>
-                  <TableHeaderColumn dataField='title' width='58%' dataFormat={this.linkFormatter}>Posts</TableHeaderColumn>
+                  <TableHeaderColumn dataField='title' width='60%' dataFormat={this.linkFormatter}>Posts</TableHeaderColumn>
                   <TableHeaderColumn dataField='author' width='10%' dataSort={ true } >Author</TableHeaderColumn>
-                  <TableHeaderColumn dataField='timestamp' width="20%" dataSort={ true } dataFormat={this.dateFormatter}>Date</TableHeaderColumn>
+                  <TableHeaderColumn dataField='timestamp' width="18%" dataSort={ true } dataFormat={this.dateFormatter}>Date</TableHeaderColumn>
                   <TableHeaderColumn dataField='voteScore' width="12%" dataSort={ true } dataFormat={this.scoreFormatter} >Score</TableHeaderColumn>
                 </BootstrapTable>
             </div>
@@ -123,13 +128,15 @@ class PostList extends Component{
 
 function  mapStateToProps (state ){
     return {
-     currentCategory : state.currentCategory
+     currentCategory : state.currentCategory, 
+     comments: state.comments
     };
 }
 
 
 function mapDispatchToProps(dispatch){
     return {
+        loadComments : (data, id) => dispatch(loadComments(data, id)), 
         setCurrentPost : (postId) => dispatch(setCurrentPost(postId)),
         loadPost : (data) => dispatch(loadPost(data))
     }

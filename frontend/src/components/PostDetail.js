@@ -66,7 +66,6 @@ class PostDetail extends Component{
         if (post){
             var date =  moment.unix(post.timestamp/1000).format("MM-DD-YYYY HH:mm");
             this.props.setCurrentPost(postId);
-            var currentUser = localStorage.token;
         }
       
         return (
@@ -89,7 +88,7 @@ class PostDetail extends Component{
                                     <span style={{fontWeight: 'bold'}}> {post.voteScore} votes </span> &nbsp;  &nbsp; 
                                         <Button bsSize="xsmall" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></Button>
                                         <Button bsSize="xsmall" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></Button>
-                                     {currentUser === post.author? 
+                                     
                                             <span>
                                                  &nbsp;  &nbsp;
                                                  <Link to="/edit">
@@ -99,8 +98,7 @@ class PostDetail extends Component{
                                                  <a role="button" onClick={this.showWarning}>
                                                  Delete     
                                                  </a>
-                                            </span> : 
-                                            <span></span> }
+                                            </span>
                                      </h5>
                                 </Col>    
                                 </Row>

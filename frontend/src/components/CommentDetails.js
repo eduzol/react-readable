@@ -46,7 +46,6 @@ class CommentDetails extends Component{
         var comments = this.props.comments.filter((comment) => comment.parentId === postId && comment.deleted === false).sort(function(c1, c2){
             return  c2.voteScore - c1.voteScore;
         });
-        let currentUser  = localStorage.token;
         
         return (
             <span>
@@ -70,12 +69,10 @@ class CommentDetails extends Component{
                                 </span> &nbsp;  &nbsp;
                                 <a  name={comment.id} role="button" onClick={this.upVote}><Glyphicon glyph="arrow-up" /></a>
                                 <a  name={comment.id} role="button" onClick={this.downVote}><Glyphicon glyph="arrow-down" /></a>
-                            { currentUser === comment.author?
                                 <span className="pull-right">
                                     <a  name={comment.id} role="button" onClick={this.editComment}>Edit </a> |
                                     <a  name={comment.id} role="button" onClick={this.deleteComment}> Delete</a>
                                 </span>
-                            : <span></span>}
                             </h5>
                             <h5> {comment.body}</h5>
                         </Col>    
